@@ -1,29 +1,29 @@
-[ADDON-NAME](http://addons.heroku.com/ADDON-SLUG) is an [add-on](http://addons.heroku.com) for providing functionality X.
+[Rainforest](https://addons.heroku.com/marketplace/rainforest) is an [add-on](http://addons.heroku.com) for providing functionality X.
 
 Adding functionality X to an application provides benefits X, Y and Z. [[Sell the benefits here! Don't skimp - developers have many options these days.]]
 
-ADDON-NAME is accessible via an API and has supported client libraries for [[Java|Ruby|Python|Node.js|Clojure|Scala]]*.
+Rainforest is accessible via an API and has supported client libraries for [[Java|Ruby|Python|Node.js|Clojure|Scala]]*.
 
 ## Provisioning the add-on
 
-ADDON-NAME can be attached to a Heroku application via the  CLI:
+Rainforest can be attached to a Heroku application via the  CLI:
 
 > callout
-> A list of all plans available can be found [here](http://addons.heroku.com/ADDON-SLUG).
+> A list of all plans available can be found [here](https://addons.heroku.com/marketplace/rainforest).
 
 ```term
-$ heroku addons:add ADDON-SLUG
------> Adding ADDON-SLUG to sharp-mountain-4005... done, v18 (free)
+$ heroku addons:add rainforest
+-----> Adding rainforest to sharp-mountain-4005... done, v18 (free)
 ```
 
-Once ADDON-NAME has been added a `ADDON-CONFIG-NAME` setting will be available in the app configuration and will contain the [[variable purpose, i.e. "canonical URL used to access the newly provisioned ADDON-NAME service instance."]]. This can be confirmed using the `heroku config:get` command.
+Once Rainforest has been added a `ADDON-CONFIG-NAME` setting will be available in the app configuration and will contain the [[variable purpose, i.e. "canonical URL used to access the newly provisioned Rainforest service instance."]]. This can be confirmed using the `heroku config:get` command.
 
 ```term
 $ heroku config:get ADDON-CONFIG-NAME
 http://user:pass@instance.ip/resourceid
 ```
 
-After installing ADDON-NAME the application should be configured to fully integrate with the add-on.
+After installing Rainforest the application should be configured to fully integrate with the add-on.
 
 ## Local setup
 
@@ -50,7 +50,7 @@ $ more .env
 
 [[If there is a local executable required (like for the memcache add-on) then include installation instructions. If not, omit entire section]]
 
-ADDON-NAME can be installed for use in a local development  environment.  Typically this entails [[installing the software | creating another version of the service]] and pointing the ADDON-CONFIG-NAME to this [[local | remote]] service.
+Rainforest can be installed for use in a local development  environment.  Typically this entails [[installing the software | creating another version of the service]] and pointing the ADDON-CONFIG-NAME to this [[local | remote]] service.
 
 <table>
   <tr>
@@ -79,10 +79,10 @@ ADDON-NAME can be installed for use in a local development  environment.  Typica
 
 [[Repeat this ##Rails 3.x sections for all other supported languages/frameworks including Java, Node.js, Python, Scala, Play!, Grails, Clojure. Heroku is a polyglot platform - don't box yourself into supporting a single language]]
 
-Ruby on Rails applications will need to add the following entry into their `Gemfile` specifying the ADDON-NAME client library.
+Ruby on Rails applications will need to add the following entry into their `Gemfile` specifying the Rainforest client library.
 
 ```ruby
-gem 'ADDON-SLUG'
+gem 'rainforest'
 ```
 
 Update application dependencies with bundler.
@@ -103,34 +103,34 @@ $ bundle install
 
 ## Monitoring & Logging
 
-Stats and the current state of ADDON-NAME can be displayed via the CLI.
+Stats and the current state of Rainforest can be displayed via the CLI.
 
 ```term
-$ heroku ADDON-SLUG:command
+$ heroku rainforest:command
 example output
 ```
 
-ADDON-NAME activity can be observed within the Heroku log-stream by [[describe add-on logging recognition, if any]].
+Rainforest activity can be observed within the Heroku log-stream by [[describe add-on logging recognition, if any]].
 
 ```term
-$ heroku logs -t | grep 'ADDON-SLUG pattern'
+$ heroku logs -t | grep 'rainforest pattern'
 ```
 
 ## Dashboard
 
 > callout
-> For more information on the features available within the ADDON-NAME dashboard please see the docs at [mysite.com/docs](mysite.com/docs).
+> For more information on the features available within the Rainforest dashboard please see the docs at [mysite.com/docs](mysite.com/docs).
 
-The ADDON-NAME dashboard allows you to [[describe dashboard features]].
+The Rainforest dashboard allows you to [[describe dashboard features]].
 
 The dashboard can be accessed via the CLI:
 
 ```term
-$ heroku addons:open ADDON-SLUG
-Opening ADDON-SLUG for sharp-mountain-4005…
+$ heroku addons:open rainforest
+Opening rainforest for sharp-mountain-4005…
 ```
 
-or by visiting the [Heroku apps web interface](http://heroku.com/myapps) and selecting the application in question. Select ADDON-NAME from the Add-ons menu.
+or by visiting the [Heroku apps web interface](http://heroku.com/myapps) and selecting the application in question. Select Rainforest from the Add-ons menu.
 
 ## Troubleshooting
 
@@ -139,33 +139,26 @@ If [[feature X]] does not seem to be [[common issue Y]] then
 
 ## Migrating between plans
 
-> note
-> Application owners should carefully manage the migration timing to ensure proper application function during the migration process.
-
-[[Specific migration process or any migration tips 'n tricks]]
-
-Use the `heroku addons:upgrade` command to migrate to a new plan.
+Use the `heroku addons:upgrade` command to migrate to a new plan. Your plan change will be reflected immediately.
 
 ```term
-$ heroku addons:upgrade ADDON-SLUG:newplan
------> Upgrading ADDON-SLUG:newplan to sharp-mountain-4005... done, v18 ($49/mo)
-       Your plan has been updated to: ADDON-SLUG:newplan
+$ heroku addons:upgrade rainforest:newplan
+-----> Upgrading rainforest:newplan to sharp-mountain-4005... done, v18 ($49/mo)
+       Your plan has been updated to: rainforest:newplan
 ```
 
 ## Removing the add-on
 
-ADDON-NAME can be removed via the  CLI.
+Rainforest can be removed via the  CLI.
 
 > warning
-> This will destroy all associated data and cannot be undone!
+> This will destroy all associated account data and cannot be undone!
 
 ```term
-$ heroku addons:remove ADDON-SLUG
------> Removing ADDON-SLUG from sharp-mountain-4005... done, v20 (free)
+$ heroku addons:remove rainforest
+-----> Removing rainforest from sharp-mountain-4005... done, v20 (free)
 ```
-
-Before removing ADDON-NAME a data export can be performed by [[describe steps if export is available]].
 
 ## Support
 
-All ADDON-NAME support and runtime issues should be submitted via on of the [Heroku Support channels](support-channels). Any non-support related issues or product feedback is welcome at [[your channels]].
+All Rainforest support and runtime issues should be submitted via on of the [Heroku Support channels](support-channels).

@@ -1,4 +1,4 @@
-[Rainforest](https://addons.heroku.com/marketplace/rainforest) is an [add-on](http://addons.heroku.com) for providing functionality X.
+[Rainforest](https://addons.heroku.com/marketplace/rainforest) is an [add-on](http://addons.heroku.com) for providing insanely simple integration testing for your Heroku app.
 
 Adding functionality X to an application provides benefits X, Y and Z. [[Sell the benefits here! Don't skimp - developers have many options these days.]]
 
@@ -25,103 +25,11 @@ http://user:pass@instance.ip/resourceid
 
 After installing Rainforest the application should be configured to fully integrate with the add-on.
 
-## Local setup
-
-### Environment setup
-
-[[If running against the add-on service during development is not applicable this section can be omitted]]
-
-After provisioning the add-on it’s necessary to locally replicate the config vars so your development environment can operate against the service.
-
-> callout
-> Though less portable it’s also possible to set local environment variables using `export ADDON-CONFIG-NAME=value`.
-
-Use [Foreman](config-vars#local-setup) to configure, run and manage process types specified in your app’s [Procfile](procfile). Foreman reads configuration variables from an .env file. Use the following command to add the ADDON-CONFIG-NAME values retrieved from heroku config to `.env`.
-
-```term
-$ heroku config -s | grep ADDON-CONFIG-NAME >> .env
-$ more .env
-```
-
-> warning
-> Credentials and other sensitive configuration values should not be committed to source-control. In Git exclude the .env file with: `echo .env >> .gitignore`.
-
-### Service setup
-
-[[If there is a local executable required (like for the memcache add-on) then include installation instructions. If not, omit entire section]]
-
-Rainforest can be installed for use in a local development  environment.  Typically this entails [[installing the software | creating another version of the service]] and pointing the ADDON-CONFIG-NAME to this [[local | remote]] service.
-
-<table>
-  <tr>
-    <th>If you have...</th>
-    <th>Install with...</th>
-  </tr>
-  <tr>
-    <td>Mac OS X</td>
-    <td style="text-align: left"><code>brew install X</code></td>
-  </tr>
-  <tr>
-    <td>Windows</td>
-    <td style="text-align: left">Link to some installer</td>
-  </tr>
-  <tr>
-    <td>Ubuntu Linux</td>
-    <td style="text-align: left"><code>apt-get install X</code></td>
-  </tr>
-  <tr>
-    <td>Other</td>
-    <td style="text-align: left">Link to some raw package</td>
-  </tr>
-</table>
-
-## Using with Rails 3.x
-
-[[Repeat this ##Rails 3.x sections for all other supported languages/frameworks including Java, Node.js, Python, Scala, Play!, Grails, Clojure. Heroku is a polyglot platform - don't box yourself into supporting a single language]]
-
-Ruby on Rails applications will need to add the following entry into their `Gemfile` specifying the Rainforest client library.
-
-```ruby
-gem 'rainforest'
-```
-
-Update application dependencies with bundler.
-
-```term
-$ bundle install
-```
-
-[[Describe briefly how to use/integrate your service from Rails 3.x with code samples]]
-
-## Using with Python/Django
-
-[[Repeat structure from Rails 3.x section]]
-
-## Using with Java, Node....
-
-[[Repeat structure from Rails 3.x section for each supported language]]
-
-## Monitoring & Logging
-
-Stats and the current state of Rainforest can be displayed via the CLI.
-
-```term
-$ heroku rainforest:command
-example output
-```
-
-Rainforest activity can be observed within the Heroku log-stream by [[describe add-on logging recognition, if any]].
-
-```term
-$ heroku logs -t | grep 'rainforest pattern'
-```
-
 ## Dashboard
 
-> callout
-> For more information on the features available within the Rainforest dashboard please see the docs at [mysite.com/docs](mysite.com/docs).
+> For more information on the features available within the Rainforest dashboard please see the docs at [docs.rainforestqa.com](https://docs.rainforestqa.com/).
 
-The Rainforest dashboard allows you to [[describe dashboard features]].
+The Rainforest dashboard allows you to manage tests, request runs and to view results.
 
 The dashboard can be accessed via the CLI:
 
@@ -132,10 +40,57 @@ Opening rainforest for sharp-mountain-4005…
 
 or by visiting the [Heroku apps web interface](http://heroku.com/myapps) and selecting the application in question. Select Rainforest from the Add-ons menu.
 
+## Getting started
+
+### Writing your first test
+
+1. Click "New test"
+2. Enter a relevant title for your test. In our case "Login into Twitter" would be a good name.
+3. Enter the URL for this test. You only need to enter the portion of the URL starting at the first "/". In our case "/login" (and not "https://twitter.com/login").
+4. Click "Create test!"
+
+![Create a test](https://docs.rainforestqa.com/images/screenshots/screen2.png)
+
+### Creating steps
+
+A step contains an __action__ and a __question__ for the tester to answer. The question
+should be answerable with yes or no. The question should be phrased so that yes is
+a success and no is a failure. There's more [detail about steps here](/pages/step-writing-guide.html#what_is_a_step).
+
+Our sample __step action__ is going to be "Enter the username
+'rainforest-twitter-example' and password '8423ufdslk'".
+
+Our sample __step question__ will be 'Have you been logged in?'.
+
+![Adding Steps](https://docs.rainforestqa.com/images/screenshots/screen3.png)
+
+
+### Re-using Tests
+
+Lets create another test named "Send a new tweet".
+
+Enter a second step with the action "Locate the compose a tweet box and
+enter the current date and time. Then, Click the 'tweet' button." And the
+response: "Was the message you added displayed on the Tweet Stream?"
+
+Now, since we can only send tweets when we're logged in, we want to reuse the
+first test we wrote which tests the login as part of this test, so our tester is logged in before trying to tweet.
+
+Click "Add new test step" and select the "Login to Twitter" test we created earlier. Drag the newly added
+step to the top of the steps so it gets executed first. 
+
+![Reusing tests](https://docs.rainforestqa.com/images/screenshots/screen4.png)
+
+In this way it's simple to re-use existing tests and keep your test suite modular and easy to maintain.
+
 ## Troubleshooting
 
-If [[feature X]] does not seem to be [[common issue Y]] then 
-[[add specific commands to look for symptoms of common issue Y]].
+If you find you get unexpected failures in your tests, this may be for a number of reasons. Common reasons include;
+
+* Using domain specific knowledge
+* Unspecific instructions or questions
+
+You can request help by contacting us via the web interface.
 
 ## Migrating between plans
 

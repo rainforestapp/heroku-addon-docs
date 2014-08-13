@@ -1,8 +1,8 @@
 [Rainforest](https://addons.heroku.com/marketplace/rainforest) is an [add-on](http://addons.heroku.com) for providing insanely simple integration testing for your Heroku app.
 
-Adding functionality X to an application provides benefits X, Y and Z. [[Sell the benefits here! Don't skimp - developers have many options these days.]]
+Rainforest allows you to setup blazing fast integration tests and run them against your app against all major browsers in under thirty minutes. Faster than automated testing. Light-years quicker than manual testing.
 
-Rainforest is accessible via an API and has supported client libraries for [[Java|Ruby|Python|Node.js|Clojure|Scala]]*.
+We've designed Rainforest for Continuous Deployment. We have plugins to integrate seamlessly into your existing deployment workflow. If you get a failure with Rainforest, we fail your build just like Rspec.
 
 ## Provisioning the add-on
 
@@ -16,14 +16,7 @@ $ heroku addons:add rainforest
 -----> Adding rainforest to sharp-mountain-4005... done, v18 (free)
 ```
 
-Once Rainforest has been added a `ADDON-CONFIG-NAME` setting will be available in the app configuration and will contain the [[variable purpose, i.e. "canonical URL used to access the newly provisioned Rainforest service instance."]]. This can be confirmed using the `heroku config:get` command.
-
-```term
-$ heroku config:get ADDON-CONFIG-NAME
-http://user:pass@instance.ip/resourceid
-```
-
-After installing Rainforest the application should be configured to fully integrate with the add-on.
+Rainforest requires zero configuration in your application; you should start by going to the dashboard to create your first test.
 
 ## Dashboard
 
@@ -82,6 +75,67 @@ step to the top of the steps so it gets executed first.
 ![Reusing tests](https://docs.rainforestqa.com/images/screenshots/screen4.png)
 
 In this way it's simple to re-use existing tests and keep your test suite modular and easy to maintain.
+
+## Integrating with your CI Server
+
+Rainforest is the simplest way of doing integration testing. Since integration tests play such a big role in assuring the quality of your software, it is important to run these tests on a regular basis. 
+
+The best way to achieve this is to integrate Rainforest with your existing continuous integration system or with your deployment system. 
+
+We've built a tool that lets you achieve this in minutes. 
+
+### rainforest-cli
+
+To integrate Rainforest with any CI server or deployment tool, we wrote a Command Line Interface that triggers a run of your tests from any script. This tool is called [rainforest-cli](https://github.com/rainforestapp/rainforest-cli) and is compatible with all build systems.
+
+It's easy to install (requires ruby 1.9 or newer):
+
+```
+gem install rainforest-cli
+```
+
+You can then run all of your tests using the following command:
+
+```
+rainforest run --token <YOUR API TOKEN> --fg --fail-fast all
+```
+
+You can find your API token in the [settings](https://app.rainforestqa.com/settings/account) pane of your account.
+
+The `--fg` option ensures that the command only returns when the run is complete. If you do not specify it, the tool will trigger the run, but will then exit immediately. 
+
+The `--fail-fast` option makes the rainforest tool return immediately after the first failure. 
+For all options, refer to the [Github page](https://github.com/rainforestapp/rainforest-cli) of the tool.
+
+### Suggested Workflow
+
+The perfect workflow will of course depends on your application and your specific needs, but here's one we have found works well for most. 
+
+We found it extremely powerful to have our CI server handle our deployments. We've configured it to deploy to our staging server whenever new code is merged into the `staging` branch. 
+
+When new code is merged into that branch, the following happens:
+
+1. All the units tests are run
+2. The code new code is pushed to your staging server, database migrations are run, etc
+3. The rainforest tools triggers a new run of all your tests against the staging server
+
+Once all your tests are green, you can confidently deploy that code to your production server. Hopefully, your process is as simple as merging the `staging` branch into the `production` branch. This triggers a deploy to production and you code is now live and bug free.
+
+### Running Only Specific Tests
+
+The easiest to achieve this is to use tags. See [related documentation](https://docs.rainforestqa.com/tags/). 
+
+If you tag all of your tests with a tag named `run-me`, you can do so with the following command.
+
+```
+rainforest run --token <YOUR API TOKEN> --tag run-me --fg --fail-fast
+```
+
+You can also use tags to only run a subset of tests that correspond to the subsystem being deployed.
+
+### More
+
+If the command line interface does not provide enough flexibility for your needs, we also have an [API](https://docs.rainforestqa.com/runs-api/) that you can use directly. 
 
 ## Troubleshooting
 

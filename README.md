@@ -2,11 +2,11 @@
 
 Rainforest allows you to setup blazing fast integration tests and run them against your app against all major browsers in under thirty minutes. Faster than automated testing. Light-years quicker than manual testing.
 
-We've designed Rainforest for Continuous Deployment. We have plugins to integrate seamlessly into your existing deployment workflow. If you get a failure with Rainforest, we fail your build just like Rspec.
+We've designed Rainforest for [Continuous Deployment](http://support.rainforestqa.com/hc/en-us/articles/203931278-Using-Rainforest-with-Circle-CI). We have plugins to integrate seamlessly into your existing deployment workflow. If you get a failure with Rainforest, we fail your build just like Rspec.
 
 ## Provisioning the add-on
 
-Rainforest can be attached to a Heroku application via the  CLI:
+Rainforest can be attached to a Heroku application via the CLI:
 
 > callout
 > A list of all plans available can be found [here](https://addons.heroku.com/marketplace/rainforest).
@@ -37,30 +37,31 @@ or by visiting the [Heroku apps web interface](http://heroku.com/myapps) and sel
 
 ### Writing your first test
 
-1. Click "New test"
-2. Enter a relevant title for your test. In our case "Login into Twitter" would be a good name.
-3. Enter the URL for this test. You only need to enter the portion of the URL starting at the first "/". In our case "/login" (and not "https://twitter.com/login").
-4. Click "Create test!"
+1. Goto [sites](https://app.rainforestqa.com/settings/sites) and add www.twitter.com as a site.
+2. Click "New test".
+3. Click "Unnamed Test". Enter a relevant title for your test. In our case "Login into Twitter" would be a good name.
+4. Click "Test URL". Pick twitter.com from the drop down. You can also enter path for the tester to start on. In our case "/login" (and not "https://twitter.com/login").
+5. Click "Add initial step".
 
-![Create a test](https://docs.rainforestqa.com/images/screenshots/screen2.png)
+![Create a test](https://dl.pushbulletusercontent.com/parqJxOET8WxTinOBmcMMmnZKnYP9VRI/rainforest-1.png)
 
 ### Creating steps
 
 A step contains an __action__ and a __question__ for the tester to answer. The question
 should be answerable with yes or no. The question should be phrased so that yes is
-a success and no is a failure. There's more [detail about steps here](/pages/step-writing-guide.html#what_is_a_step).
+a success and no is a failure.
 
 Our sample __step action__ is going to be "Enter the username
 'rainforest-twitter-example' and password '8423ufdslk'".
 
 Our sample __step question__ will be 'Have you been logged in?'.
 
-![Adding Steps](https://docs.rainforestqa.com/images/screenshots/screen3.png)
+![Adding Steps](https://dl.pushbulletusercontent.com/57YrdP3bkToAUv96efanc7uFWDXYrQMi/rainforest-2.png)
 
 
 ### Re-using Tests
 
-Lets create another test named "Send a new tweet".
+Lets create another test named "Send a new tweet". Be sure to set the site to "Twitter.com".
 
 Enter a second step with the action "Locate the compose a tweet box and
 enter the current date and time. Then, Click the 'tweet' button." And the
@@ -69,20 +70,19 @@ response: "Was the message you added displayed on the Tweet Stream?"
 Now, since we can only send tweets when we're logged in, we want to reuse the
 first test we wrote which tests the login as part of this test, so our tester is logged in before trying to tweet.
 
-Click "Add new test step" and select the "Login to Twitter" test we created earlier. Drag the newly added
-step to the top of the steps so it gets executed first. 
+Click "Embed a test" and type "Twitter" or whatever the name of your first test was. When it appears in the drop down, click to select it . Drag the newly added step to the top of the steps so it gets executed first.
 
-![Reusing tests](https://docs.rainforestqa.com/images/screenshots/screen4.png)
+![Reusing tests](https://dl.pushbulletusercontent.com/EhZukByE9Dos2uFikaOUqgn4Zj2seqQK/rainforest-3.png)
 
 In this way it's simple to re-use existing tests and keep your test suite modular and easy to maintain.
 
 ## Integrating with your CI Server
 
-Rainforest is the simplest way of doing integration testing. Since integration tests play such a big role in assuring the quality of your software, it is important to run these tests on a regular basis. 
+Rainforest is the simplest way of doing integration testing. Since integration tests play such a big role in assuring the quality of your software, it is important to run these tests on a regular basis.
 
-The best way to achieve this is to integrate Rainforest with your existing continuous integration system or with your deployment system. 
+The best way to achieve this is to integrate Rainforest with your existing continuous integration system or with your deployment system.
 
-We've built a tool that lets you achieve this in minutes. 
+We've built a tool that lets you achieve this in minutes.
 
 ### rainforest-cli
 
@@ -100,18 +100,18 @@ You can then run all of your tests using the following command:
 rainforest run --token <YOUR API TOKEN> --fg --fail-fast all
 ```
 
-You can find your API token in the [settings](https://app.rainforestqa.com/settings/account) pane of your account.
+You can find your API token in the [integrations](https://app.rainforestqa.com/settings/integrations) pane of your account.
 
-The `--fg` option ensures that the command only returns when the run is complete. If you do not specify it, the tool will trigger the run, but will then exit immediately. 
+The `--fg` option ensures that the command only returns when the run is complete. If you do not specify it, the tool will trigger the run, but will then exit immediately.
 
-The `--fail-fast` option makes the rainforest tool return immediately after the first failure. 
+The `--fail-fast` option makes the rainforest tool return immediately after the first failure.
 For all options, refer to the [Github page](https://github.com/rainforestapp/rainforest-cli) of the tool.
 
 ### Suggested Workflow
 
-The perfect workflow will of course depends on your application and your specific needs, but here's one we have found works well for most. 
+The perfect workflow will of course depends on your application and your specific needs. Here are a few that we find work well.
 
-We found it extremely powerful to have our CI server handle our deployments. We've configured it to deploy to our staging server whenever new code is merged into the `staging` branch. 
+We found it extremely powerful to have our CI server handle our deployments. We've configured it to deploy to our staging server whenever new code is merged into the `staging` branch.
 
 When new code is merged into that branch, the following happens:
 
@@ -123,7 +123,7 @@ Once all your tests are green, you can confidently deploy that code to your prod
 
 ### Running Only Specific Tests
 
-The easiest to achieve this is to use tags. See [related documentation](https://docs.rainforestqa.com/tags/). 
+The easiest to achieve this is to use tags. See [related documentation](http://support.rainforestqa.com/hc/en-us/sections/200580263-Tags).
 
 If you tag all of your tests with a tag named `run-me`, you can do so with the following command.
 
@@ -135,7 +135,7 @@ You can also use tags to only run a subset of tests that correspond to the subsy
 
 ### More
 
-If the command line interface does not provide enough flexibility for your needs, we also have an [API](https://docs.rainforestqa.com/runs-api/) that you can use directly. 
+If the command line interface does not provide enough flexibility for your needs, we also have an [API](https://app.rainforestqa.com/docs) that you can use directly.
 
 ## Troubleshooting
 
